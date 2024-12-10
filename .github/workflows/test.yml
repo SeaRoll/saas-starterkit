@@ -30,5 +30,7 @@ jobs:
           cache: "npm"
       - name: Install dependencies
         run: npm ci
+      - name: Add random stripe environment variable
+        run: echo "STRIPE_KEY=sk_test_123" >> .env
       - name: Run build
         run: npm run build
