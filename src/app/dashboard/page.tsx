@@ -1,5 +1,7 @@
 import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth-client";
+import prisma from "@/lib/db";
+import { getSubscriptionProductName } from "@/lib/stripe-subscriptions";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -18,10 +20,19 @@ export default async function Home() {
   const session = await auth.api.getSession({
     headers: await headers(), // you need to pass the headers object.
   });
-
-  if (session) {
-    return <div>Logged in as {session.user.email}</div>;
+  if (!session) {
+    return <button onClick={handleGoogleSignIn}>Sign In via Google</button>;
   }
 
-  return <button onClick={handleGoogleSignIn}>Sign In via Google</button>;
+  const cus = await prisma.stripeCustomer.findFirst({
+    where: {
+      userId: session.user.id,
+    },
+  });
+  if (cus && cus.subscriptionId) {
+    const pName = await getSubscriptionProductName(cus.subscriptionId);
+    console.log(pName);
+  }
+
+  return <div>Logged in as {session.user.email}</div>;
 }
