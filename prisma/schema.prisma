@@ -20,16 +20,29 @@ model Init {
 
 // ---- AUTH ---- //
 
+model StripeCustomer {
+  id             String   @id
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  customerId     String
+  subscriptionId String?
+  createdAt      DateTime
+  updatedAt      DateTime
+
+  @@map("stripe_customer")
+}
+
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
+  id             String           @id
+  name           String
+  email          String
+  emailVerified  Boolean
+  image          String?
+  createdAt      DateTime
+  updatedAt      DateTime
+  sessions       Session[]
+  accounts       Account[]
+  StripeCustomer StripeCustomer[]
 
   @@unique([email])
   @@map("user")
