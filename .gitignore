@@ -1,5 +1,6 @@
 # prisma
 /prisma/dev.db
+/data
 
 # dependencies
 /node_modules
@@ -32,6 +33,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env
+.env.prod
 
 # vercel
 .vercel

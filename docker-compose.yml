@@ -5,13 +5,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    environment:
-      - DATABASE_URL=file:/prod.db
-      - BETTER_AUTH_SECRET=...
-      - BETTER_AUTH_URL=... # should match the DNS name
-      - GOOGLE_CLIENT_ID=...
-      - GOOGLE_CLIENT_SECRET=...
-      - STRIPE_KEY=...
-      - STRIPE_ENDPOINT_SECRET=...
+    env_file:
+      - .env.prod
     volumes:
-      - /prod.db:./prod.db
+      - ./data:/data

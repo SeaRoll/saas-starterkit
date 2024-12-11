@@ -6,7 +6,10 @@
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start -p 8080",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate": "npx prisma migrate dev",
+    "deploy:db": "npx prisma migrate deploy",
+    "deploy:app": "docker compose up -d --build"
   },
   "dependencies": {
     "@prisma/client": "^6.0.1",
