@@ -9,6 +9,7 @@ I was bored, so I created a starter kit for SaaS projects with some basic featur
 - Database (SQLite, Prisma)
 - User authentication/authorization (Better Auth)
 - Subscription-based payments (Stripe)
+- E-mail notifications (Nodemailer)
 
 ## Getting Started
 
