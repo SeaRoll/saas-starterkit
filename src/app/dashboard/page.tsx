@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth-client";
 import prisma from "@/lib/db";
-import { getSubscriptionProductName } from "@/lib/stripe-subscriptions";
+import { getSubProduct } from "@/lib/stripe-customer";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -29,9 +29,9 @@ export default async function Home() {
       userId: session.user.id,
     },
   });
-  if (cus && cus.subscriptionId) {
-    const pName = await getSubscriptionProductName(cus.subscriptionId);
-    console.log(pName);
+  if (cus) {
+    const product = await getSubProduct(cus.customerId);
+    console.log(product);
   }
 
   return <div>Logged in as {session.user.email}</div>;

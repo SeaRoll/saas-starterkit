@@ -23,3 +23,85 @@ export async function getCustomerPortal(
 
   return session.url;
 }
+
+// Creates a subscription for a customer with the given price ids
+export async function createSubscription(customerId: string, priceId: string) {
+  // check that customer has no active subscription
+  const subs = await stripe.subscriptions.list({
+    customer: customerId,
+    status: "active",
+  });
+  if (subs.data.length > 0) {
+    throw new Error("Customer already has an active subscription");
+  }
+
+  const subscription = await stripe.subscriptions.create({
+    customer: customerId,
+    items: [{ price: priceId }],
+    payment_behavior: "error_if_incomplete",
+  });
+  return subscription;
+}
+
+// Updates a subscription with the given price ids
+export async function updateSubscription(customerId: string, priceId: string) {
+  const subscriptions = await stripe.subscriptions.list({
+    customer: customerId,
+    status: "active",
+  });
+  if (subscriptions.data.length === 0) {
+    throw new Error("Customer has no active subscription");
+  }
+
+  // create new subscription with new price ids
+  const subscription = await stripe.subscriptions.update(
+    subscriptions.data[0].id,
+    {
+      items: [{ price: priceId }],
+      payment_behavior: "error_if_incomplete",
+      proration_behavior: "always_invoice",
+    },
+  );
+
+  // delete subscription items that are not in the new subscription
+  for (const item of subscription.items.data) {
+    if (priceId !== item.price.id) {
+      await stripe.subscriptionItems.del(item.id, {
+        proration_behavior: "none",
+      });
+    }
+  }
+
+  return subscription;
+}
+
+type SubscriptionProductData = {
+  subscriptionId: string;
+  productName: string;
+  data: Record<string, string>;
+};
+
+// Gets a subscription by id
+export async function getSubProduct(
+  customerId: string,
+): Promise<SubscriptionProductData | null> {
+  const subscriptions = await stripe.subscriptions.list({
+    customer: customerId,
+    status: "active",
+  });
+
+  if (
+    subscriptions.data.length === 0 ||
+    subscriptions.data[0].items.data.length === 0
+  ) {
+    return null;
+  }
+  const prod = await stripe.products.retrieve(
+    subscriptions.data[0].items.data[0].plan.product as string,
+  );
+  return {
+    subscriptionId: subscriptions.data[0].id,
+    productName: prod.name,
+    data: prod.metadata,
+  };
+}

@@ -1,9 +1,6 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
-import {
-  createSubscription,
-  updateSubscription,
-} from "@/lib/stripe-subscriptions";
+import { createSubscription, updateSubscription } from "@/lib/stripe-customer";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
@@ -31,21 +28,12 @@ export async function GET(req: NextRequest) {
   }
 
   if (isUpdate) {
-    if (!stripeCustomer.subscriptionId) {
-      return new Response("Bad Request", { status: 400 });
-    }
-    await updateSubscription(stripeCustomer.subscriptionId, [priceId]);
+    await updateSubscription(stripeCustomer.customerId, priceId);
   } else {
-    const sub = await createSubscription(stripeCustomer.customerId, [priceId]);
+    const sub = await createSubscription(stripeCustomer.customerId, priceId);
     if (!sub) {
       return new Response("Internal Server Error", { status: 500 });
     }
-    await prisma.stripeCustomer.update({
-      where: { id: stripeCustomer.id },
-      data: {
-        subscriptionId: sub.id,
-      },
-    });
   }
 
   redirect("/");

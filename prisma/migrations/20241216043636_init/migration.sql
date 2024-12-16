@@ -1,4 +1,21 @@
 -- CreateTable
+CREATE TABLE "Init" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "stripe_customer" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "customerId" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "stripe_customer_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "user" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,

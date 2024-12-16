@@ -28,7 +28,6 @@ export async function GET() {
         id: ulid(),
         userId: session.user.id,
         customerId,
-        subscriptionId: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

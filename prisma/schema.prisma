@@ -22,13 +22,12 @@ model Init {
 // ---- AUTH ---- //
 
 model StripeCustomer {
-  id             String   @id
-  userId         String
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  customerId     String
-  subscriptionId String?
-  createdAt      DateTime
-  updatedAt      DateTime
+  id         String   @id
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  customerId String
+  createdAt  DateTime
+  updatedAt  DateTime
 
   @@map("stripe_customer")
 }
