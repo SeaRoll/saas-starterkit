@@ -11,27 +11,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Init {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 // ---- YOUR SCHEMA ---- //
 
 // ---- AUTH ---- //
-
-model StripeCustomer {
-  id         String   @id
-  userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  customerId String
-  createdAt  DateTime
-  updatedAt  DateTime
-
-  @@map("stripe_customer")
-}
-
 model User {
   id             String           @id
   name           String
@@ -42,12 +24,14 @@ model User {
   updatedAt      DateTime
   sessions       Session[]
   accounts       Account[]
-  StripeCustomer StripeCustomer[]
 
   role       String?
   banned     Boolean?
   banReason  String?
   banExpires DateTime?
+
+  members     Member[]
+  invitations Invitation[]
 
   @@unique([email])
   @@map("user")
@@ -65,6 +49,8 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   impersonatedBy String?
+
+  activeOrganizationId String?
 
   @@unique([token])
   @@map("session")
@@ -98,4 +84,44 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Organization {
+  id          String       @id
+  name        String
+  slug        String?
+  logo        String?
+  createdAt   DateTime
+  metadata    String?
+  members     Member[]
+  invitations Invitation[]
+
+  @@unique([slug])
+  @@map("organization")
+}
+
+model Member {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           String
+  createdAt      DateTime
+
+  @@map("member")
+}
+
+model Invitation {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String
+  role           String?
+  status         String
+  expiresAt      DateTime
+  inviterId      String
+  user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@map("invitation")
 }
