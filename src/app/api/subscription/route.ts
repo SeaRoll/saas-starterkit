@@ -1,5 +1,4 @@
 import { auth } from "@/lib/auth";
-import prisma from "@/lib/db";
 import { createSubscription, updateSubscription } from "@/lib/stripe-customer";
 import { getOrCreateOrganization } from "@/service/organization";
 import { headers } from "next/headers";
