@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { createSubscription, updateSubscription } from "@/lib/stripe-customer";
+import { getOrCreateOrganization } from "@/service/organization";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
@@ -20,17 +21,15 @@ export async function GET(req: NextRequest) {
   }
   const isUpdate = searchParams.get("update") === "true";
 
-  const stripeCustomer = await prisma.stripeCustomer.findFirst({
-    where: { userId: session.user.id },
-  });
-  if (!stripeCustomer) {
-    return new Response("Unauthorized", { status: 401 });
-  }
+  const org = await getOrCreateOrganization();
 
   if (isUpdate) {
-    await updateSubscription(stripeCustomer.customerId, priceId);
+    await updateSubscription(org.metadata.stripeCustomerId, priceId);
   } else {
-    const sub = await createSubscription(stripeCustomer.customerId, priceId);
+    const sub = await createSubscription(
+      org.metadata.stripeCustomerId,
+      priceId
+    );
     if (!sub) {
       return new Response("Internal Server Error", { status: 500 });
     }
