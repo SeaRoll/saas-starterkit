@@ -7,7 +7,7 @@ I was bored, so I created a starter kit for SaaS projects with some basic featur
 - NextJS (Latest)
 - Tailwind CSS
 - Database (SQLite, Prisma)
-- User authentication/authorization (Better Auth)
+- User authentication/authorization (Better Auth) & Admin privileges
 - Subscription-based payments (Stripe)
 - E-mail notifications (Nodemailer)
 

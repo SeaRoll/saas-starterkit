@@ -23,7 +23,11 @@ CREATE TABLE "user" (
     "emailVerified" BOOLEAN NOT NULL,
     "image" TEXT,
     "createdAt" DATETIME NOT NULL,
-    "updatedAt" DATETIME NOT NULL
+    "updatedAt" DATETIME NOT NULL,
+    "role" TEXT,
+    "banned" BOOLEAN,
+    "banReason" TEXT,
+    "banExpires" DATETIME
 );
 
 -- CreateTable
@@ -36,6 +40,7 @@ CREATE TABLE "session" (
     "ipAddress" TEXT,
     "userAgent" TEXT,
     "userId" TEXT NOT NULL,
+    "impersonatedBy" TEXT,
     CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
