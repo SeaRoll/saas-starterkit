@@ -30,10 +30,11 @@ npm run dev
 npm run migrate
 
 # 5. generate client
-npx prisma generate
+npm run generate
 ```
 
 ## Deploying (via docker)
+
 ```sh
 # 1. create a .env.prod file
 cp .env.example .env.prod

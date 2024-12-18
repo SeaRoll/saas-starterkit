@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth-client";
-import prisma from "@/lib/db";
 import { getSubProduct } from "@/lib/stripe-customer";
+import { getOrCreateOrganization } from "@/service/organization";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -24,15 +24,11 @@ export default async function Home() {
     return <button onClick={handleGoogleSignIn}>Sign In via Google</button>;
   }
 
-  const cus = await prisma.stripeCustomer.findFirst({
-    where: {
-      userId: session.user.id,
-    },
-  });
-  if (cus) {
-    const product = await getSubProduct(cus.customerId);
-    console.log(product);
-  }
+  // get organization
+  const org = await getOrCreateOrganization();
+
+  const product = await getSubProduct(org.metadata.stripeCustomerId);
+  console.log(product);
 
   return <div>Logged in as {session.user.email}</div>;
 }
