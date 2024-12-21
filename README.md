@@ -27,7 +27,7 @@ npx prisma db push
 npm run dev
 
 # 4. create migrations
-npm run migrate
+npm run migrate:dev
 
 # 5. generate client
 npm run generate
@@ -40,7 +40,7 @@ npm run generate
 cp .env.example .env.prod
 
 # 2. (optional) create a clean db image (creates a clean db image)
-DATABASE_URL=file:<matching-prod-path>/prod.db npm run deploy:db # I recommend $PWD/data/prod.db
+DATABASE_URL=file:<matching-prod-path>/prod.db npm run migrate:db # I recommend $PWD/data/prod.db
 
 # 3. deploy app
 npm run deploy:app
