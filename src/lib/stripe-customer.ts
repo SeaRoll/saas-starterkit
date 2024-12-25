@@ -52,27 +52,20 @@ export async function updateSubscription(customerId: string, priceId: string) {
   if (subscriptions.data.length === 0) {
     throw new Error("Customer has no active subscription");
   }
-
-  // create new subscription with new price ids
-  const subscription = await stripe.subscriptions.update(
-    subscriptions.data[0].id,
-    {
-      items: [{ price: priceId }],
-      payment_behavior: "error_if_incomplete",
-      proration_behavior: "always_invoice",
-    },
-  );
-
-  // delete subscription items that are not in the new subscription
-  for (const item of subscription.items.data) {
-    if (priceId !== item.price.id) {
-      await stripe.subscriptionItems.del(item.id, {
-        proration_behavior: "none",
-      });
-    }
+  if (subscriptions.data[0].items.data.length === 0) {
+    throw new Error("Subscription has no items");
   }
 
-  return subscription;
+  // update subscription item
+  await stripe.subscriptionItems.update(
+    subscriptions.data[0].items.data[0].id,
+    {
+      price: priceId,
+      quantity: 1,
+      proration_behavior: "always_invoice",
+      payment_behavior: "error_if_incomplete",
+    },
+  );
 }
 
 type SubscriptionProductData = {
