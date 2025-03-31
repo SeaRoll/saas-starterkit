@@ -8,8 +8,7 @@
     "build": "next build",
     "start": "next start -p 8080",
     "lint": "next lint",
-    "generate": "npx prisma generate",
-    "migrate:dev": "npx prisma migrate dev",
+    "migrate:dev": "npx prisma migrate dev && npx prisma generate",
     "migrate:prod": "npx prisma migrate deploy",
     "deploy:app": "docker compose up -d --build"
   },

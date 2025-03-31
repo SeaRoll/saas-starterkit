@@ -21,16 +21,13 @@ npm install
 cp .env.example .env
 
 # 3. create a database
-npx prisma db push
+touch prisma/dev.db
 
-# 3. run the development server
-npm run dev
-
-# 4. create migrations
+# 4. run migrations & generate client
 npm run migrate:dev
 
-# 5. generate client
-npm run generate
+# 5. run development server
+npm run dev
 ```
 
 ## Deploying (via docker)
@@ -40,7 +37,7 @@ npm run generate
 cp .env.example .env.prod
 
 # 2. (optional) create a clean db image (creates a clean db image)
-DATABASE_URL=file:<matching-prod-path>/prod.db npm run migrate:db # I recommend $PWD/data/prod.db
+DATABASE_URL=file:<matching-prod-path>/prod.db npm run migrate:prod # I recommend $PWD/data/prod.db
 
 # 3. deploy app
 npm run deploy:app
