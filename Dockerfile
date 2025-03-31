@@ -41,6 +41,14 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
+# Delete leaking development files
+RUN rm -f .env
+RUN rm -f ./prisma/dev.db
+RUN rm -f ./prisma/dev.db-journal
+
+# Install Prisma CLI
+RUN npm install -g prisma
+
 USER nextjs
 
 EXPOSE 8080
@@ -48,4 +56,4 @@ EXPOSE 8080
 ENV PORT=8080
 
 ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
+CMD npx prisma migrate deploy ; node server.js

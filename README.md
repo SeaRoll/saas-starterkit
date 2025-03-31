@@ -36,8 +36,8 @@ npm run dev
 # 1. create a .env.prod file
 cp .env.example .env.prod
 
-# 2. (optional) create a clean db image (creates a clean db image)
-DATABASE_URL=file:<matching-prod-path>/prod.db npm run migrate:prod # I recommend $PWD/data/prod.db
+# 2. (optional) create database file
+mkdir data && touch data/prod.db
 
 # 3. deploy app
 npm run deploy:app
