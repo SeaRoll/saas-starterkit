@@ -21,7 +21,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-email": "^4.0.1",
-    "stripe": "^17.7.0",
+    "stripe": "^18.0.0",
     "ulid": "^3.0.0"
   },
   "devDependencies": {
