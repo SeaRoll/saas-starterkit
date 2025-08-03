@@ -1,6 +1,6 @@
 import { render } from "@react-email/render";
 import nodemailer from "nodemailer";
-import HelloEmail from "../../emails/basic";
+import { JSX } from "react";
 
 type Payload = {
   to: string;
@@ -26,10 +26,23 @@ const handleEmailFire = async (data: Payload) => {
   });
 };
 
-export async function sendHello() {
+export async function sendEmail(
+  to: string,
+  subject: string,
+  html: JSX.Element
+) {
   await handleEmailFire({
-    to: "hello@neorepo.com",
-    subject: "Hello",
-    html: await render(HelloEmail()),
+    to,
+    subject,
+    html: await render(html),
   });
 }
+
+// Example usage of sendEmail function
+// export async function sendHello() {
+//   await handleEmailFire({
+//     to: "hello@neorepo.com",
+//     subject: "Hello",
+//     html: await render(HelloEmail()),
+//   });
+// }

@@ -1,59 +1,43 @@
-FROM node:23.3.0-alpine AS base
-
-# Install dependencies only when needed
-FROM base AS deps
-RUN apk add --no-cache libc6-compat
-
+# Stage 1: The Builder 🏗️
+# Use the full Bun image to install dependencies and build the project
+FROM oven/bun:1 AS builder
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json package-lock.json ./
-RUN npm ci
+# Copy dependency-related files
+COPY package.json bun.lock ./
 
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Install dependencies using Bun's fast installer
+# --frozen-lockfile ensures the exact versions from the lockfile are used
+RUN bun install --frozen-lockfile
+
+# Copy the rest of the application source code
 COPY . .
 
-ENV NEXT_TELEMETRY_DISABLED=1
+# Run the Next.js build command
+RUN bun run build
 
-RUN npx prisma generate
+# ---
 
-RUN npm run build
-
-# Production image, copy all the files and run next
-FROM base AS runner
-RUN apk add openssl
-RUN apk add --no-cache sqlite
-
+# Stage 2: The Runner 🚀
+# Use the lightweight 'slim' image for the final production container
+FROM oven/bun:1-slim AS runner
 WORKDIR /app
 
+# Set the environment to production
 ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+# Copy the self-contained standalone output from the builder stage
+COPY --from=builder /app/.next/standalone ./
 
+# Copy the public and static folders for assets
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/static ./.next/static
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+# Copy migration files
+COPY --from=builder /app/migrations ./migrations
 
-# Delete leaking development files
-RUN rm -f .env
-RUN rm -f ./prisma/dev.db
-RUN rm -f ./prisma/dev.db-journal
+# Expose the port the app will run on
+EXPOSE 3000
 
-# Install Prisma CLI
-RUN npm install -g prisma
-
-USER nextjs
-
-EXPOSE 8080
-
-ENV PORT=8080
-
-ENV HOSTNAME="0.0.0.0"
-CMD npx prisma migrate deploy ; node server.js
+# The command to start the Next.js server using Bun
+CMD ["bun", "server.js"]

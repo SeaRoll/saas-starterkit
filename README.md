@@ -1,44 +1,35 @@
-# SaaS Starter Kit
-
-I was bored, so I created a starter kit for SaaS projects with some basic features to get you started.
+# SaaS Starterkit - Simple SaaS Starterkit with Next.js, DrizzleORM, and PostgreSQL
 
 ## Features
 
-- NextJS (Latest)
-- Tailwind CSS
-- Database (SQLite, Prisma)
-- User authentication/authorization (Better Auth) & Admin privileges
-- Subscription-based payments (Stripe)
-- E-mail notifications (Nodemailer)
+- **Next.js**: Full-stack React framework for building server-rendered applications.
+- **DrizzleORM**: Type-safe ORM for PostgreSQL, providing a simple and efficient way to interact with the database. Migration is done by `instrumentation.ts` file.
+- **PostgreSQL**: Reliable and powerful open-source relational database management system.
+- **Docker**: Containerization for easy deployment and environment consistency.
+- **Better Auth**: Authentication system for managing user access and permissions.
+- **Email Notifications**: Built-in email client for sending notifications and alerts.
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development.
+- **Background Tasks**: Support for running background tasks like CRON jobs or Kafka consumers.
 
 ## Getting Started
 
-```sh
-# 1. install dependencies
-npm install
+Run the `bun run clear` to clear the migrations folder and the database.
+After configuring the `schema.ts` file, generate new migrations with:
 
-# 2. create a .env file
-cp .env.example .env
-
-# 3. create a database
-touch prisma/dev.db
-
-# 4. run migrations & generate client
-npm run migrate:dev
-
-# 5. run development server
-npm run dev
+```bash
+bun run create:migration
 ```
 
-## Deploying (via docker)
+## Local Development
 
-```sh
-# 1. create a .env.prod file
-cp .env.example .env.prod
-
-# 2. (optional) create database file
-mkdir data && touch data/prod.db
-
-# 3. deploy app
-npm run deploy:app
+```bash
+cp .env.example .env # Copy the example environment variables
+bun run local:up # Runs the local PostgreSQL database
+bun run dev # Starts the Next.js development server
 ```
+
+## Quick Links
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [DrizzleORM Documentation](https://orm.drizzle.team/)
+- [Better Auth Documentation](https://better-auth.com/docs)
