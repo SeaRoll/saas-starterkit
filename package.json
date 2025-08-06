@@ -34,7 +34,7 @@
     "drizzle-kit": "^0.31.4",
     "eslint": "^9",
     "eslint-config-next": "15.4.5",
-    "react-email": "^4.2.7",
+    "react-email": "^4.2.8",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

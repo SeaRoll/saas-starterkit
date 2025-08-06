@@ -24,7 +24,7 @@
         "drizzle-kit": "^0.31.4",
         "eslint": "^9",
         "eslint-config-next": "15.4.5",
-        "react-email": "^4.2.7",
+        "react-email": "^4.2.8",
         "tailwindcss": "^4",
         "typescript": "^5",
       },
@@ -999,7 +999,7 @@
 
     "react-dom": ["react-dom@19.1.1", "", { "dependencies": { "scheduler": "^0.26.0" }, "peerDependencies": { "react": "^19.1.1" } }, "sha512-Dlq/5LAZgF0Gaz6yiqZCf6VCcZs1ghAJyrsu84Q/GT0gV+mCxbfmKNoGRKBYMJ8IEdGPqu49YWXD02GCknEDkw=="],
 
-    "react-email": ["react-email@4.2.7", "", { "dependencies": { "@babel/parser": "^7.27.0", "@babel/traverse": "^7.27.0", "chalk": "^5.0.0", "chokidar": "^4.0.3", "commander": "^13.0.0", "debounce": "^2.0.0", "esbuild": "^0.25.0", "glob": "^11.0.0", "jiti": "2.4.2", "log-symbols": "^7.0.0", "mime-types": "^3.0.0", "normalize-path": "^3.0.0", "nypm": "0.6.0", "ora": "^8.0.0", "prompts": "2.4.2", "socket.io": "^4.8.1", "tsconfig-paths": "4.2.0" }, "bin": { "email": "dist/index.js" } }, "sha512-zF1dIGTnG10Xls+6ViJydYEYbqqGTq0BWYwTqsp70sPG2eRME79MSq82akFBfdaM/XhLwh6PuNjeohso3aJowA=="],
+    "react-email": ["react-email@4.2.8", "", { "dependencies": { "@babel/parser": "^7.27.0", "@babel/traverse": "^7.27.0", "chalk": "^5.0.0", "chokidar": "^4.0.3", "commander": "^13.0.0", "debounce": "^2.0.0", "esbuild": "^0.25.0", "glob": "^11.0.0", "jiti": "2.4.2", "log-symbols": "^7.0.0", "mime-types": "^3.0.0", "normalize-path": "^3.0.0", "nypm": "0.6.0", "ora": "^8.0.0", "prompts": "2.4.2", "socket.io": "^4.8.1", "tsconfig-paths": "4.2.0" }, "bin": { "email": "dist/index.js" } }, "sha512-Eqzs/xZnS881oghPO/4CQ1cULyESuUhEjfYboXmYNOokXnJ6QP5GKKJZ6zjkg9SnKXxSrIxSo5PxzCI5jReJMA=="],
 
     "react-is": ["react-is@16.13.1", "", {}, "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="],
 
