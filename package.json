@@ -33,7 +33,7 @@
     "@types/react-dom": "^19.1.7",
     "drizzle-kit": "^0.31.4",
     "eslint": "^9.34.0",
-    "eslint-config-next": "15.4.5",
+    "eslint-config-next": "15.5.0",
     "react-email": "^4.2.8",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.9.2"
