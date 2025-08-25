@@ -12,6 +12,10 @@ echo "✅ Schema file cleared."
 touch src/db/schema.ts
 echo "✅ Schema file re-added."
 
+# Write 'export * from "./auth-schema";'
+echo 'export * from "./auth-schema";' > src/db/schema.ts
+echo "✅ Schema file populated."
+
 # Print that everything is now ready
 echo "✅ All done! Your development environment is ready."
 echo "📝 Don't forget to run 'bun run create:migration' to create a new migration after setting up your 'schema.ts'."
